@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CBT Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e6f0ff;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        h2 {
+            color: #0059b3;
+            text-align: center;
+        }
+
+        button {
+            background-color: #0059b3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #003d80;
+        }
+
+        .question {
+            margin-bottom: 15px;
+        }
+
+        .correct {
+            color: green;
+            font-weight: bold;
+        }
+
+        .wrong {
+            color: red;
+            font-weight: bold;
+        }
+
+        #testSection {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="loginSection">
+    <h2>CBT Login</h2>
+    <label>Enter Your Name:</label><br><br>
+    <input type="text" id="username" style="width:100%; padding:8px;"><br><br>
+    <button onclick="login()">Login</button>
+</div>
+
+<div class="container" id="testSection">
+    <h2>CBT Test</h2>
+    <p id="welcome"></p>
+
+    <form id="quizForm">
+
+        <div class="question">
+            <p>1. What is the capital of Nigeria?</p>
+            <input type="radio" name="q1" value="A"> Lagos<br>
+            <input type="radio" name="q1" value="B"> Abuja<br>
+            <input type="radio" name="q1" value="C"> Ibadan<br>
+            <span id="a1"></span>
+        </div>
+
+        <div class="question">
+            <p>2. Which planet is known as the Red Planet?</p>
+            <input type="radio" name="q2" value="A"> Earth<br>
+            <input type="radio" name="q2" value="B"> Mars<br>
+            <input type="radio" name="q2" value="C"> Venus<br>
+            <span id="a2"></span>
+        </div>
+
+        <div class="question">
+            <p>3. 5 × 6 equals?</p>
+            <input type="radio" name="q3" value="A"> 30<br>
+            <input type="radio" name="q3" value="B"> 25<br>
+            <input type="radio" name="q3" value="C"> 20<br>
+            <span id="a3"></span>
+        </div>
+
+        <div class="question">
+            <p>4. Which is a programming language?</p>
+            <input type="radio" name="q4" value="A"> HTML<br>
+            <input type="radio" name="q4" value="B"> CSS<br>
+            <input type="radio" name="q4" value="C"> JavaScript<br>
+            <span id="a4"></span>
+        </div>
+
+        <div class="question">
+            <p>5. Water freezes at what temperature (°C)?</p>
+            <input type="radio" name="q5" value="A"> 0°C<br>
+            <input type="radio" name="q5" value="B"> 50°C<br>
+            <input type="radio" name="q5" value="C"> 100°C<br>
+            <span id="a5"></span>
+        </div>
+
+        <button type="button" onclick="submitTest()">Submit Test</button>
+    </form>
+
+    <h3 id="score"></h3>
+</div>
+
+<script>
+    function login() {
+        let name = document.getElementById("username").value;
+        if (name === "") {
+            alert("Please enter your name");
+            return;
+        }
+        document.getElementById("loginSection").style.display = "none";
+        document.getElementById("testSection").style.display = "block";
+        document.getElementById("welcome").innerText = "Welcome, " + name;
+    }
+
+    function submitTest() {
+        let answers = {
+            q1: "B",
+            q2: "B",
+            q3: "A",
+            q4: "C",
+            q5: "A"
+        };
+
+        let score = 0;
+
+        for (let q in answers) {
+            let selected = document.querySelector(`input[name="${q}"]:checked`);
+            let answerSpan = document.getElementById("a" + q.substring(1));
+
+            if (selected) {
+                if (selected.value === answers[q]) {
+                    score++;
+                    answerSpan.innerHTML = " ✔ Correct";
+                    answerSpan.className = "correct";
+                } else {
+                    answerSpan.innerHTML = " ✘ Correct answer is " + answers[q];
+                    answerSpan.className = "wrong";
+                }
+            } else {
+                answerSpan.innerHTML = " ✘ No answer selected. Correct answer is " + answers[q];
+                answerSpan.className = "wrong";
+            }
+        }
+
+        document.getElementById("score").innerText =
+            "You scored " + score + " out of 5";
+    }
+</script>
+
+</body>
+</html>
